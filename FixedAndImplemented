@@ -67,3 +67,14 @@ Implemented: Radar (script by Justin Zaun)
 Bug 9: The radar would update the enemy position in the X axis, but not in the Y axis.
 -The radar script was using X and Z axis to update itself (it was probably tailored for 3D I pressume).
 Fix: Swapped the Z axis reference in the radar script for a reference to the Y axis.
+
+Implemented: GUI, main menu
+Implemented: GUI, pause menu
+Implemented: GUI, death menu
+
+Bug 10: If you paused the game, you were still able to spawn a new bullet (it would froze in spawn and die when the game was resumed).
+Fix: Added a new bool to check if the game is paused or not. Added this to the player's shooting script and the enemyIA script.
+
+Bug 11: If you died, then go to the main menu and then start a new game, the player wouldn't be able to move.
+-The isPlayerAlive bool would not be updated, so the player would start a new game with that bool in false and couldn't move, but because its HP would be 30 instead of 0, the death menu wouldn't prompt either.
+Fix: Starting a new game from the Restart button or from the main menu will always force the isPlayerAlive bool to be true, and the isGamePaused bool to be false.
