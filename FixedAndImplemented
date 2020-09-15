@@ -2,7 +2,7 @@ Fixed and implemented, Pre-Alpha & Alpha 1.0:
 
 Notes, each time a line starts with:
 Implementation: Something new has been added.
-Implementation change, xxxxx: Something already implemented has been reworked, changing the way it functions (whether to fix something or give it a new functionality).
+Implementation change, xxxxx: Something already implemented has been reworked, changing the way it functions (whether to fix a major problem, improve on the feature or give it a new functionality).
 Bug #: A description of how the bug looks like from the player's perspective.
 a) b) c) (and so on): A description of how the bug looks like from the player's perspective, but these pointers are used when more than one bug either have the same cause or is fixed by the same fix.
 -Lines starting with dashes explain the causes of a bug.
@@ -54,5 +54,16 @@ Bug 6: Enemy tries to take the same position as the player, pushing the player f
 Fix: Implemented an enemyZone (like the enemyVision, but smaller). If the player enters this zone, the playerLastPos object will update its position to match the enemy's, preventing the enemy ships from pushing the player forever.
 
 Bug 7: 
-a) Sometimes, the enemy ship will stop following the player too soon.
--
+a) Sometimes, the enemy ship will stop following the player too soon. (Not really noticeable during gameplay).
+-This happened because the player teleported. The followUp action would kick in early (before the enemy had reached the last position where the player was seen), making it travel a shorter distance than what its suppoused to travel.
+Fix: Introduced a new flag in the enemyIA script, "hasPlayerTeleported". This bool will check the playerMovement script to see if the teleporting flag is true or not. If player.teleporting is true in the playerMovement script and if the playerFound flag is also true in the enemyIA script, hasPlayerTeleported will be set to true, and in that case, it'll turn the followUp flag in the enemyIA script to true as well. After the followUp action is done, the hasPlayerTeleported bool will be set to false by the findingPlayeterLastPos script (within the playerLastPos gameobject).
+
+Bug 8:
+-I'm including here all of "trying to access a destroyed object" errors that Unity prompted when either the enemy or the player was destroyed.
+Fix: Introduced (and included where missing) a variable for each script that interacts with the player and/or the enemy to check if the entity in question is alive or not (isPlayerAlive / isEnemyAlive). These bools will be false when HP = 0 and true when not.
+
+Implemented: Radar (script by Justin Zaun)
+
+Bug 9: The radar would update the enemy position in the X axis, but not in the Y axis.
+-The radar script was using X and Z axis to update itself (it was probably tailored for 3D I pressume).
+Fix: Swapped the Z axis reference in the radar script for a reference to the Y axis.
