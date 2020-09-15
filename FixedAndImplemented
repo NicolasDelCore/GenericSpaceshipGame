@@ -78,3 +78,7 @@ Fix: Added a new bool to check if the game is paused or not. Added this to the p
 Bug 11: If you died, then go to the main menu and then start a new game, the player wouldn't be able to move.
 -The isPlayerAlive bool would not be updated, so the player would start a new game with that bool in false and couldn't move, but because its HP would be 30 instead of 0, the death menu wouldn't prompt either.
 Fix: Starting a new game from the Restart button or from the main menu will always force the isPlayerAlive bool to be true, and the isGamePaused bool to be false.
+
+Implemented: Score system in inifnite mode. (GUI and script).
+Implemented: Timer in infinite mode (tracks hours, minutes, seconds and milliseconds). (GUI and script).
+Implemented: Player HP is now reflected in the GUI.
