@@ -84,6 +84,13 @@ Bug 12: enemies spawned from enemyPrefab were quiet and doing almost nothing or 
 -It wasn't working because the prefab would delink itself from certain objects (the player, the score system, the spawner).
 Fix: I had to modify the enemyIA a bit to look for the problematic values on the Start() method (as soon as the object spawns basically). 
 
+Bug 13: Strange enemy behaviors.
+a) Enemy would move forever after the player was lost.
+-The playerLastPos object was moving itself alongside the enemy ship, because it was a child object. During the followUp routine, the playerLastPos object is suppoused to take the position of the followUp gameobject, and then the enemy ship is suppoused to move there (following the playerLastPos object), but since playerLastPos was a child object, it would update its position with reference to the enemy ship (being pushed like if it was physically attached to the object), thus the enemy ship would move forward forever (unless the player stopped that loop by updating the playerLastPos position when found).
+b) Weird movement patterns.
+-The enemyZone trigger would get activated by the enemyVision trigger, despite being programmed to ignore it, and vice-verse. This was happening because the enemyZone was a child of the enemy ship object.
+Fix: Both enemyZone and playerLastPos start as child of the enemy ship gameobject, but now in their Start() function, both have a instruction to unparent themselves from the enemy ship. This fixed the positioning and trigger activation issues for these objects.
+
 Implemented: Spawner gameobject and spawner script. The spawner gameobject contains only a trigger area that encapsulates most of the map. The spawner script basically spawns enemyPrefabs at random within that trigger area (but only when an enemy dies, so there's always only 1 enemy in the map).
 Implemented: Score system in inifnite mode. (GUI and script).
 Implemented: Timer in infinite mode (tracks hours, minutes, seconds and milliseconds). (GUI and script).
