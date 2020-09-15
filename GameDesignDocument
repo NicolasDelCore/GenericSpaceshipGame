@@ -14,7 +14,9 @@ Mechanics:
 -Normal enemy shots take 10 HP from the player.
 -(Pending) Radar can be turned off before starting the game, as a handicap for the player.
 -(Pending) Secondary attack for the player: a PEM bomb that momentarily disables nearby enemies and does AOE damage (one of these is given to the player each 5 or 10 ships destroyed; this will be adjusted during play-testing).
--If the player gets too close to an enemy ship, the enemy ship will react with the following behavior:
+-If the player gets too close to an enemy ship, the enemy will find the player.
+-If the enemy sees a player bullet or gets shoted from behind, the enemy will find the player. (It's space-age, they probably know how to calculate where a laser was shoted from).
+-When the player is found, the enemy will react in the following way:
 A) It'll look in the direction of the player and shoot while the player is on sight.
 B) If it's too far away, the enemy ship will come closer to the player (up to a certain point, respecting social-distancing of course).
 C) If the player tries escape, the enemy ship will chase the player until this one leaves the enemy's vision area.
