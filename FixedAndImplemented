@@ -1,7 +1,7 @@
 Fixed and implemented, Pre-Alpha & Alpha 1.0:
 
 Implementation: Sprites.
-Implementation: Player movement (aims in the direction of the mouse).
+Implementation: Player movement (aims in the direction of the mouse, moves with AWSD or arrow keys) in playerMovement script.
 Implementation: Player shooting & particle effect on impact. There are two scripts for this: shooting and bullet. Shooting contains the force the bullet is suppoused to have on spawn and also instantiates the bullet itself. The bullet script destroys the bullet when a) it collides with something, or b) when a 1-second timer expires, it also contains the particle effect to be used on bullet impact/expiration. The bullets spawn from the firePoint gameobject, a child object to the player (it's an empty gameobject, just to mark where the bullet is suppoused to spawn).
 Implementation: Copied player code to rotate, applied it to the enemyIA script. Instead of rotating to point to the mouse, the enemy will rotate to point to the player when the player enters the enemyVision zone.
 Implementation: Copied the player-bullet script, changed its sprite and renamed it enemy-bullet. Copied the player shooting code & and applied it to the enemyIA and the enemy-bullet. Now, when the player enters the enemyVision zone, the flag playerFound is set to true, and the enemy will start shooting (and since it's already looking in the direction of the player, the enemy bullets will go in that direction, as the enemy-bullet spawn point is in front of the enemy).
