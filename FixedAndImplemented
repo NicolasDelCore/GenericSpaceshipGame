@@ -79,6 +79,12 @@ Bug 11: If you died, then go to the main menu and then start a new game, the pla
 -The isPlayerAlive bool would not be updated, so the player would start a new game with that bool in false and couldn't move, but because its HP would be 30 instead of 0, the death menu wouldn't prompt either.
 Fix: Starting a new game from the Restart button or from the main menu will always force the isPlayerAlive bool to be true, and the isGamePaused bool to be false.
 
+Implemented: enemyPrefab (a prefab with the enemy object).
+Bug 12: enemies spawned from enemyPrefab were quiet and doing almost nothing or moving weirdly.
+-It wasn't working because the prefab would delink itself from certain objects (the player, the score system, the spawner).
+Fix: I had to modify the enemyIA a bit to look for the problematic values on the Start() method (as soon as the object spawns basically). 
+
+Implemented: Spawner gameobject and spawner script. The spawner gameobject contains only a trigger area that encapsulates most of the map. The spawner script basically spawns enemyPrefabs at random within that trigger area (but only when an enemy dies, so there's always only 1 enemy in the map).
 Implemented: Score system in inifnite mode. (GUI and script).
 Implemented: Timer in infinite mode (tracks hours, minutes, seconds and milliseconds). (GUI and script).
 Implemented: Player HP is now reflected in the GUI.
