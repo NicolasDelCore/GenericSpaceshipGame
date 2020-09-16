@@ -11,4 +11,6 @@ If you want to play the game:
 
 There's a text-tutorial in the game's main menu that tells you how to play, but I recommend reading through the GameDesignDocument (GDC) and the CurrentGameStatus files if you want the indepth version of the mechanics implemented and the intended behaviors.
 
+Note: The Scripts folder (uploaded in this repository) won't contain the A* Pathfinder scripts (used for moving the enemies). A* Pathfinder can be found here: https://arongranberg.com/astar/download
+
 Thanks!
