@@ -25,7 +25,8 @@ Implementation change, map borders: Previously, the teleport instructions were w
 
 Bug 2:
 a) Enemies would randomly disappear and reappear even when chasing the player.
-b) In some occasions, the enemy would start "blinking" a lot of times per second and randomly ignore the player bullets. c) Bullets would disappear at certain places too.
+b) In some occasions, the enemy would start "blinking" a lot of times per second and randomly ignore the player bullets.
+c) Bullets would disappear at certain places too.
 -Bullets were getting teleported in the mapborders, thus you could step at a certain point and see the bullet disappear.
 -The enemies would be teleported as soon as their enemyVision zone got in contact with the map border. Because of the size of the enemyVision zone, this could, in many cases, trap the enemy in question within a teleport-loop (they would teleport from one border to the other lots of times per second, visually blinking a lot and randomly ignoring player-bullets).
 Fix 2: Within the mapBorders script, I added an "if" instruction to ignore triggerEnter and triggerExit events from the objects with name "enemyVision", "enemy-bullet(Clone)",  and "player-bullet(Clone)". This is so that the enemyVision trigger box is ignored, otherwise enemies would get trapped in a TP loop since the trigger box is too big. Bullets are now also ignored (instead of dissappearing, they pass through the trigger, this improves the illusion of going through an infinite space).
