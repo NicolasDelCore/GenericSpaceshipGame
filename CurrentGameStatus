@@ -9,7 +9,7 @@ An infinite mode is present with the following characteristics:
 -Score counter (to see how many ships you kill, 100 points per ship).
 -Player has 30 HP, each enemy shot takes 10 HP. There's no respawn.
 -Seemingly infinite map.
--Only one enemy will spawn at a time.estuve 
+-Only one enemy will spawn at a time. 
 
 Next Steps:
 -Improve the map-border-crossing mechanics.
