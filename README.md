@@ -5,6 +5,7 @@ This is a generic spaceship game that I made with Unity and C#.
 If you want to play the game:
 
 -Download the zip from:
+
 (Current) Alpha 1.1: https://github.com/NicolasDelCore/GenericSpaceshipGame/raw/master/GenericSpaceshipGameAlpha1.1.zip
 
 (Old) Alpha 1.0: https://github.com/NicolasDelCore/GenericSpaceshipGame/raw/master/GenericSpaceshipGame.zip
