@@ -1,3 +1,121 @@
+Fixed and implemented, Alpha 1.1:
+
+Bug 14: In-Menu tutorial instructs you to use "right click" instead of "left click" to shoot.
+Fix: Corrected the phrase.
+
+Bug 15: From the player's point of view, enemies could sometimes "jump" a few centimeters closer or further away
+-The teleporting-transition for the player would produce this effect, because of its large collision box teleporting the sprite right away when touching the teleporting zone
+-Previous line also applies for the enemy's collision box / teleporting transition.
+Fix: Created a new, much smaller collision box, which is only used for teleporting (instead of using the same hitbox for collisions and shots), then modified the mapBorders script to teleport based on this new tp-specific collision box. This smoothen the teleporting transition a lot as the sprite needs to be deep into the teleporting zone before its teleported away.
+-This fix generated a very similar bug with the same behavior, that would trigger less often. The problem here was that the enemy's collision box was still in charge of changing the teleporting bool state.
+Fix: The teleporting bool is no longer affected by the enemy's collision box, but by the enemyTPbox. (This bool is defined in the EnemyIA script, but modified by the mapBorders script when teleportation happens).
+
+Bug 16: Enemies will move forever in a straight line, generally with the wrong rotation, until the player gets them out of that loop.
+-After implementing the smaller TPboxes in the enemies, sometimes the playerLastPos object (which is what the enemy follows in reality) will get stuck in the middle of a mapBorder. This is specially noticeable when there's more than one enemy at the same time. Quite often, they'll move with the wrong rotation too (as the last place where the player was observed differs from the place where the playerLastPos gameobject physically is).
+Fix: Corrected a tagging issue in the enemy prefab used. The enemyTPBox was tagged properly in the original enemy game object, but it wasn't tagged in the enemy prefab (used to spawn new enemies). This was making it so that the teleporting bool would always be false in new/additional enemies.
+
+Implementation: Implemented a set of cameras and render-textures to reflect what's happening in the opposite side of the map.
+-When the player crosses a map-border, if an enemy was nearby, it would dissappear.
+-Now there are a couple cameras and render-textures following the player through the X and Y axis, so if the player passes through a map border and there's an enemy nearby, this enemy will be captured by a camera and reflected at the other side within the render-texture.
+
+Bug 17: Non-visible for players; Unity warnings.
+-The horizontal and vertical cameras / reflected textures that follow the player around will still try to get its position even after the player dies.
+-Previous changes in the code (reimplementation of the horiz and vert cameras, name changes, gameobject changes, etc) made it so that the isPlayerAlive bool would never be updated in the horizCamPlayerFollow and vertCamPlayerFollow scripts.
+-Fix: Fixed this by referencing the correct gameobjects in the playerMovement script.
+
+Bug 18: No teleporting happening or coordinates being wrong.
+-Teleport wouldn't work unless Vector3 was used for calculations. (This was actually a pre-alpha bug, but I forgot to document it before).
+Fix: Swapped the Vector2 variables for Vector3s in the teleporting code.
+
+Bug 19: Enemy goes crazy sometimes.
+-Gets trapped in a teleporter-loop.
+Fix: It was a collision-box problem when adjusting the teleporting distance for the player. Implemented a different teleporting coordinates for the enemies.
+
+Bug 20: Sometimes there's a sudden change in the enemy texture and it looks bad (it changes from high def to low def).
+-There's a set of cameras capturing what happens in one side of the map and reflecting it on the other side. The reflected textures look bad.
+Fix: Increased the resolution of the texture (from 256x256 to 1500x1500 - Note: I did try smaller resolutions like 1024x1024 but the difference was still noticeable).
+
+Bug 21: Enemy not being very good at following the player.
+-Enemy isn't good passing through the mapborders when the player is really close.
+Fix: Added a new check in the PlayerLastPos script's Update function: if the player was found and then it teleported, playerLastPos = followUp pos (the enemy starts its followUp mechanic)
+
+Bug 22: Enemy will sometimes not follow the player correctly, moving to a different place instead.
+-In reduced occasions, if the enemy is very near to a map border and the player passes through quickly enough, some flags will remain true when they shouldn't (in EnemyIA: Follow Up, Has Player Teleported in EnemyIA, in findingPlayerLastPos: Follow Up and Second Follow Up), making the enemy move sideways throughout the map border until it teleports a couple of times (which takes it out of the movement loop).
+Fix: the findingLastPlayerPos script will now turn the hasPlayerTeleported flag in the enemyIA script to false when necessary.
+
+Bug 23: Sometimes, for a fraction of a second, the the upper part of the enemy sprite gets cutted in half.
+-Possible explanation: The reflected textures are not being drawn correctly after having implemented the TPbox in the enemies.
+Fix: Enlarged the border cameras and reflected textures (camera size increased from 14 to 16, reflected textures from 2.79 to 3.2 in X and Z axis).
+
+Bug 24: Radar will sometime draw the enemies (red dots) outside of the radar itself.
+-The texture used for the radar had some transparent edges, the enemies were being drawn there.
+Fix: Sliced the transparencies and changed the radar texture. Additionally, made the radar part of the UI so that its positioning is more consistent with the rest of the UI elements (for testing purposes, the radar was introduced as a script within the player-gameobject).
+
+Bug 25: Some UI elements (Life, Score and Timer) will only look good in 1024x768 resolution.
+-These elements were using the wrong anchors within the UI Canvas (unlike the radar, which has its position fixed within the radar script).
+Fix: Changed the anchors from center to top-left for these elements within the UI Canvas. Now they should keep the same position relative to the screen no matter the resolution used.
+
+Bug 26: Radar's size was inconsistent when testing different screen resolutions.
+-The radar's script adjust its size based on the screen size.
+Fix: Fixed the size to 100x100.
+
+Bug 27: Sometimes, if the player is too close, enemy shots will go right through the player.
+-The enemy's firepoint was a little bit far, so the player could get between the enemy's collision box and the firepoint object (where the bullet spawns), effectively ignoring the shots from that enemy.
+Fix: Reduced the distance between the enemy's collision box and the firePoint object.
+
+Implementation change: Timer is now hidden while playing (too big and too distracting), it'll be displayed on the death screen. Adjusted UI accordingly.
+
+Implementation change: Preparing the game to look "good" in as many resolutions as possible. (Resolutions lower than 640x480 - which is only posible through manually re-sizing the game window, will look somewhat bad because the player-UI won't resize). 
+
+Implementation change: GameUI (radar, HP and Score) now hides when the player dies.
+
+Implementation change: The deathScreen now shows the Score obtained (since the GameUI is hidden when you're dead).
+
+Implementation change: Instead of only one enemy, there'll be 7 enemies on screen at all times.
+
+Implementation change: Since there's more enemies in screen, increased the player HP from 30 to 100. (Also changed the UI text "Lifes" to "HP", because it describes the functionality better).
+
+Bug 28: Bullets sometimes go through the enemies.
+-Given the many changes applied to how the mapBorders work, these are not teleporting bullets anymore.
+Fix: Changed the mapBorders script so that bullets are teleported again.
+Implementation change: Also reduced the size of the bullets to avoid collision problems with the borders and because this way look better overall.
+
+Bug 29: Editor error. Non visible for the player.
+-If an enemy spawns at the exact same moment as the player dies, Unity will return one NullReferenceException error because the Start function of the enemy tries to find the player. This doesn't affects the gameplay/application.
+"NullReferenceException: Object reference not set to an instance of an object
+enemyIA.Start () (at Assets/enemyIA.cs:38)"
+Fix: The code for getting the player's position was storing the player's transform set into a variable called "player" (player = GameObject.Find("spaceship-player").transform), I changed that so that it uses the player gameobject entirely (playerGO = GameObject.Find("spaceship-player") and the transform element will be accessed later when needed (playerGO.transform.position.x for example). I haven't been able to forcefully reproduce this NullReference error since, so the problem must have been trying to store a transform set that no longer exists (null) from a destroyed object, rather than trying to store the already-destroyed object itself (the garbage collector either passes after the newly spawned enemy got the spaceship-player value stored, or before the enemy even spawns, so when the enemy spawns, eventhough the player was destroyed, the information of the destroyed object can still be accessed).
+Note: Some great info about Unity's/C#'s garbage collector behavior and null & destroyed object differences can be found here https://jacx.net/2015/11/20/dont-use-equals-null-on-unity-objects.html
+
+Bug 30: Sometimes, enemies "pop in and out of existance".
+-If the player is in a corner of the map, the opposite corner won't be reflected. For example: if you get to a corner of the map and then move in an "L" form, you'll teleport horizontally and vertically through the map borders (you'll tp from one corner to the other basically). When this happens, the cameras loose whatever object was in the opposite corner and find the objects of the new corner, so objects in this situation will still appear and disappear seemingly at random.
+Fix: Implemented a new camera (loneCam) and texture (loneTexture). These will always be in opposite corners to each other and their position will vary depending on where on the map is the player (the cam will always be in the corner opposite to the player, while the texture will be in the same area as the player). This covers the blind corner left by the original set of cameras that follow the player.
+
+Bug 31: Sometimes bullets will suddently "jump" a bit to the side from their normal trajectory.
+-The bullet went through two different map borders and this deformed its trajectory, which can be seen in the reflected-textures.
+Fix: Implemented a smaller collision box for teleporting (same as with the player and enemies). Bullets should always go in a straight-line now.
+
+Bug 32: Enemy sometimes won't see the player.
+-Enemy can't see the player through the map borders (because what the player really sees at that point is just a reflection of the enemy sprite).
+
+Implementation change, minor code optimization in EnemyIA: Swapped some things from the Update function to independant functions in the enemyIA script (mostly for major clarity while reading the code)
+
+Bug 33: When more than one enemy is on screen, sometimes it'll follow the player or move with the wrong rotation.
+-It happens because it's programmed to look in the player's direction but it moves following the playerLastPos object (so it can effectively move in one direction while looking at a different direction).
+-Note: After recent implementations (probably the enemyZone and enemyTP fixes), I haven't noticed the following issue again. But a fix is still necessary given that newer code that I'm planning on implementing will very likely require the enemy to move in other directions while the player isn't in sight (say, back and forth).
+Fix: Implemented a code that, if the playerFound flag is false, the enemy will look in the direction of the playerLastPos gameobject (and because it'll always move towards this gameobject, it'll be always looking either in the direction of the player when playerFound is true, or towards the direction it's moving to).
+
+Bug 34: Bullets dissappearing mid-air, doing damage but not showing their hit-effect or sprite.
+-It was an error in the mapBorders script. Instead of modifying the bullet position (parent object), only the player/enemy-bullet-tp collision box was being teleported (the code used trigger.transform.position instead of trigger.transform.parent.position).
+Fix: Code fixed (if the player/enemy-tp-bullet collision box is detected, the whole bullet is teleported). The visuals now behave as originally intended after the bullet passes through a map border.
+
+Implementation: Detecting player through the map borders
+Bug 35: The player would see the enemy standing still despite being very close to it / right in front of it.
+-The enemy couldn't "see" beyond the map borders.
+Fix: Every enemy now has a set of "enemyVision" triggers (enemyZoneX, enemyZoneY, enemyZoneLoneCorner). Note: This is similar to the camera-set solution for seeing enemies across the map borders.
+
+====================================================================================================
+
 Fixed and implemented, Pre-Alpha & Alpha 1.0:
 
 Notes, each time a line starts with:
