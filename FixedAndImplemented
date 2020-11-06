@@ -49,7 +49,7 @@ Bug 42: Killing a Tracker enemy will spawn a Tracker and a Normal enemy as well,
 Fix: Rearranged the if/else statements in the spawnerScript to make sure that only one enemy spawns. First we check if a Tracker died, if it was, we spawn a Tracker, otherwise, we check if the enemy that died was of type Captain or not. Then we spawn either a Normal enemy or a Captain enemy.
 
 Implementation: Sound (music, laser SFX, explosion SFX).
-Implementation: Options menu (regulates sound FX, video resolution and fullscreen/windowed mode).
+Implementation: Options menu (regulates sound FX, video resolution and fullscreen/windowed mode, and if you're in the Main Menu, you can choose to disable or enable the Radar before the game begins).
 
 ====================================================================================================
 
