@@ -24,10 +24,11 @@ D) If the player has left the enemy's vision area, the enemy will move to the la
 E) If enemy reaches the last known position of the player and the player isn't found, the enemy ship will move forward a few more meters in that direction to try to find the player. (Note: it won't move to the actual player location, it'll simply move forward in that direction, so if the player turns to the side at the right moment, the enemy ship can be lost).
 -Player and enemy shots cancel each other out, but won't cancel themselves (enemy shots won't cancel enemy shots, and player shots won't cancel player shots).
 -(Pending) Difficulties: Player has infinite lives in Easy mode, 3 in Normal and 1 in Hard. In extra-hard the player will have 1 life and 10 HP (so it'll die after one shot).
--Three types of enemy, two of them with a special ability.
-A) Enemy type A: no extra abilities, it'll simply follow and shoot the player as described above.
-B) (Pending) Enemy type B: when the player is about to escape, it'll teleport to the player's position, never loosing sight of the player. 
-C) (Pending) Enemy type C: when the ship is about to be destroyed or when other ships are destroyed nearby, it'll attempt to retreat. Once it's at a safe distance, it'll spawn reinforcements (two more Type A ships) and go back to where the player was last seen (this activates only once per Type Three ship).
+-Four types of enemy.
+A) Captain, color red: Spawns reinforcements (at 20 HP), has 40 HP.
+B) Tracker, color blue: Teleports to the player, harder to loose, has 20 HP.
+C) Normal, color grey: shoots faster than special units, has 20 HP.
+D) Reinforcement: like the normal ships, but with red lines, spawned only by the Captain ship. 
 
 Boss mechanics: (all pending)
 -(Pending) Boss spawns after 20 destroyed enemies (will adjust later during testing).
