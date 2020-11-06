@@ -12,7 +12,7 @@ Mechanics:
 -The player has a radar to find the enemies.
 -Player has 30 HP.
 -Normal enemy shots take 10 HP from the player.
--(Pending) Radar can be turned off before starting the game, as a handicap for the player.
+-Radar can be turned off before starting the game, as a handicap for the player.
 -(Pending) Secondary attack for the player: a PEM bomb that momentarily disables nearby enemies and does AOE damage (one of these is given to the player each 5 or 10 ships destroyed; this will be adjusted during play-testing).
 -If the player gets too close to an enemy ship, the enemy will find the player.
 -If the enemy sees a player bullet or gets shoted from behind, the enemy will find the player. (It's space-age, they probably know how to calculate where a laser was shoted from).
@@ -24,7 +24,7 @@ D) If the player has left the enemy's vision area, the enemy will move to the la
 E) If enemy reaches the last known position of the player and the player isn't found, the enemy ship will move forward a few more meters in that direction to try to find the player. (Note: it won't move to the actual player location, it'll simply move forward in that direction, so if the player turns to the side at the right moment, the enemy ship can be lost).
 -Player and enemy shots cancel each other out, but won't cancel themselves (enemy shots won't cancel enemy shots, and player shots won't cancel player shots).
 -(Pending) Difficulties: Player has infinite lives in Easy mode, 3 in Normal and 1 in Hard. In extra-hard the player will have 1 life and 10 HP (so it'll die after one shot).
--(Pending) Three types of enemy, two of them with a special ability.
+-Three types of enemy, two of them with a special ability.
 A) Enemy type A: no extra abilities, it'll simply follow and shoot the player as described above.
 B) (Pending) Enemy type B: when the player is about to escape, it'll teleport to the player's position, never loosing sight of the player. 
 C) (Pending) Enemy type C: when the ship is about to be destroyed or when other ships are destroyed nearby, it'll attempt to retreat. Once it's at a safe distance, it'll spawn reinforcements (two more Type A ships) and go back to where the player was last seen (this activates only once per Type Three ship).
