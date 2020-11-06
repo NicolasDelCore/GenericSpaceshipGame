@@ -1,10 +1,33 @@
 Releases:
--Alpha 1.1 released on October 12thm, 2020.
+
+-Alpha 1.2, released on November 6th, 2020.
+-Alpha 1.1 released on October 12th, 2020.
 -First playable Alpha released on September 14th, 2020.
 
 ======================================================================
 
-Current game status: Alpha 1.1 
+Current game status: Alpha 1.2
+
+An infinite mode is present with the following characteristics:
+-Four types of enemy.
+Captain, color red: Spawns reinforcements (at 20 HP), has 40 HP.
+Tracker, color blue: Teleports to the player, harder to loose, has 20 HP.
+Normal, colorgrey: shoots faster than special units, has 20 HP.
+Reinforcement: like the normal ships, but with red lines, spawned only by the Captain ship. 
+-Radar (you can disable or enable it from the main menu).
+-Timer (to see how long you survived, shown only when you loose).
+-Score counter (to see how many ships you killed, 100 points per ship).
+-Player has 100 HP, each enemy shot takes 10 HP.
+-Seemingly infinite map.
+-6 enemies will be on the map at all times (+ reinforcements when spawned by Captain ship).
+-Music
+-Sound effects
+-Support for different resolutions and fullscreen/windowed mode
+-Options menu (to regulate sound volume, resolutions and set fullscreen or windowed mode).
+
+======================================================================
+
+Old, Alpha 1.1 
 
 An infinite mode is present with the following characteristics:
 -One type of enemy.
