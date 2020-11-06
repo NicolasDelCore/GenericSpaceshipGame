@@ -1,3 +1,58 @@
+Fixed and implemented, Alpha 1.2:
+Implementation: particle effect for when the player or enemy moves.
+
+Bug 36: Movement particle effect "restarts" mid-air (all particles created dissappear, this is noticeable only for less than a second since the particles are recreated quickly).
+-When passing through the map borders, the particles were not being captured by the cameras due to being in the wrong layer.
+Fix: Moved the "particlesEngine1" and "particlesEngine2" game objects (particle emitters) to the "player" / "enemy" layers and "lasers" sorting layer.
+-The "Sprite/Default" shader in the material of the render textures wouldn't reproduce the particles.
+Fix: Changed the shader to FX/Flare. This works exactly as before, with the addition that now the particles are shown in the material/shader.
+
+Implementation change, playerMovement: Improved the playerMovement script so that it is more readable. (Privatized some variables like "rb" and "moveSpeed", moved blocks of code running in Update to independant functions that are now called in Update, such as "movementInput", "movementAction" or "amIAlive", deleted some unusued variables, standarized indentation).
+Implementation change, playerMovement: To control when the particles related to movement are shown, a new function (amIMoving) was introduced. This function checks if there's input for movement or not. If there is, the particle effect is reproduced, otherwise it's not.
+
+Bug 37: Sometimes the movement-particles will play when the enemy was stationary.
+-Instead of comparing the value X of the enemy's position to the value X of the playerLasPos gameobject's position, it was being compared against its Y value. This provoked that sometimes the outcome wouldn't be the one expected. (The desition of whether to play the paticle effect or not is taken based on if the sustraction of enemy's X - playerLastPos' X is > 1 or is <-1).
+Fix: Fixed the code error. X value of the enemy's position is now compared only against the X value of the playerLastPos gameobject, and the same applies for the Y value.
+
+Implementation: new type of enemy, Tracker, it's a blue enemy with a teleporting-power: if the player is about to loose this enemy, it'll teleport to the player's position
+
+Implementation change, Tracker-enemy: adjusting the distance the enemy is teleported from the player to be a bit further away (otherwise the player dies too quickly, as there are sometimes where dodging the bullet of the recently-teleported enemy is impossible).
+
+Implementation change, Tracker-enemy: shoots slower than normal enemy.
+
+Bug 38: When killing a teleporting-enemy, the teleporting particle effect will spawn in the player's position.
+-This happens because all enemy-child objects are destroyed when the enemy itself is destroyed, so the player is no longer within enemyVision, thus the player is lost and the particle effect spawns (eventhough the enemy itself is dead and won't teleport to the player's position).
+Fix: Particle effect will only spawn if the enemy is still alive.
+
+Bug 39: If the player is right in front the enemy (collision boxes touching), the enemy-shots will do a lot more damage (20, 40, 50 in some cases per single shot). This is unexpected, it should be 10 HP only.
+-Since the bullet spawns partially or completely within the player's collision box, multiple collisions are detected.
+Implementation change, bullet damage: Moved the damage caused by enemy bullets from the playerMovement script to the enemyBullet script.
+Fix: Introduced a new variable that verifies if this bullet has collided with the player or not (collisionDetected, which will be False when the bullet spawns). Damage will only take place if collisionDetected is false, it'll be switched to True if the collision with the player took place, thus duplicate collisions won't cause damage.
+
+Bug 40: If the enemy is right in front the player (collision boxes touching), the player-shots will do a lot more damage (20, 40, 50 in some cases per single shot). This is unexpected, it should be 10 HP only.
+-Since the bullet spawns partially or completely within the enemy's collision box, multiple collisions are detected.
+Implementation change, bullet damage: Moved the damage caused by player bullets from the enemyIA script to the bullet script.
+Fix: Introduced a new variable that verifies if this bullet has collided with the enemy or not (collisionDetected, which will be False when the bullet spawns). Damage will only take place if collisionDetected is false, it'll be switched to True if the collision with the player took place, thus duplicate collisions won't cause damage.
+
+Bug 41: Unity message: Some shots would return a message stating that the instance of an object was missing during collision. This was only an alert that would be visible within the Unity GUI, not having any impact on the gameplay.
+Fix: Changed the variable "enemy" (that stores the enemy instance) value from collision.collider.gameObject to simply collision.gameObject. This fixed the alert.
+
+Implementation: new type of enemy, Captain-enemy: it's a red enemy with double the life of the normal enemy (40 HP instead of 20). It shoots slower than the normal enemy type (same shoot-rate as the Tracker enemy).
+Implementation: new type of enemy, Reinforcement-enemy: it looks like the normal, with some red-markings, and it behaves like the normal enemy, except that it won't respawn on dead. These are meant to be spawned only by the Captain enemy type.
+Implementation: Captain spawn behavior: When it's life is at 20, it'll spawn 2 reinforcement ships.
+
+Implementation change, enemies on the map: There will be 6 enemies in the map spawning naturally (at the beggining of the game and through the spawnerScript), 4 normal enemies, 1 Tracker enemy and 1 Captain enemy (note, the Captain enemies can spawn 2 enemies of type Reinforcement, increasing the possible total amount of enemies from 6 to 8).
+Implementation change, Tracker's enemyVision: enlarged the enemyVision zone for the Tracker enemy, also placed the Tracker enemy in the middle of enemyVision, so that the teleporting-effect is better.
+
+Bug 42: Killing a Tracker enemy will spawn a Tracker and a Normal enemy as well, instead of just a Tracker.
+-It was a problem with how the if/else statements were ordered in the spawnerScript.
+Fix: Rearranged the if/else statements in the spawnerScript to make sure that only one enemy spawns. First we check if a Tracker died, if it was, we spawn a Tracker, otherwise, we check if the enemy that died was of type Captain or not. Then we spawn either a Normal enemy or a Captain enemy.
+
+Implementation: Sound (music, laser SFX, explosion SFX).
+Implementation: Options menu (regulates sound FX, video resolution and fullscreen/windowed mode).
+
+====================================================================================================
+
 Fixed and implemented, Alpha 1.1:
 
 Bug 14: In-Menu tutorial instructs you to use "right click" instead of "left click" to shoot.
