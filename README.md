@@ -19,7 +19,7 @@ There's a text-tutorial in the game's main menu that tells you how to play, but 
 Note: The Scripts folder (uploaded in this repository) won't contain the A* Pathfinder scripts (used for moving the enemies). A* Pathfinder can be found here: https://arongranberg.com/astar/download
 
 In case you want to delete it, the game's config file is saved in:
-C:\Users\*Your Windows User*\AppData\LocalLow\NicosGameNonCompany\GenericSpaceshipGame
+C:\Users\ * Your Windows User * \AppData\LocalLow\NicosGameNonCompany\GenericSpaceshipGame
 It's created the first time you open the game, regulates sound, resolution, and whether or not to show the radar.
 
 Thanks!
